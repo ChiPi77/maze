@@ -7,7 +7,7 @@
 #include <algorithm>
 
 // マスの設定
-const int MAZE_SIZE = 21;      // 迷路のサイズ（奇数にしてください）
+const int MAZE_SIZE = 21;      // 迷路のサイズ
 const int CELL_MAZE_SIZE = 30; // 1マスの大きさ
 enum CellType { WALL, PATH, SEARCHING, ROUTE, START, GOAL };
 int mapData[MAZE_SIZE][MAZE_SIZE];
@@ -27,7 +27,7 @@ struct Node {
     bool operator>(const Node& o) const { return f > o.f; }
 };
 
-// 1. 簡易迷路生成（棒倒し法）
+
 void generateMaze() {
     for (int y = 0; y < MAZE_SIZE; y++) {
         for (int x = 0; x < MAZE_SIZE; x++) {
@@ -38,10 +38,10 @@ void generateMaze() {
     srand((unsigned int)time(NULL));
     for (int y = 2; y < MAZE_SIZE - 2; y += 2) {
         for (int x = 2; x < MAZE_SIZE - 2; x += 2) {
-            mapData[y][x] = WALL; // 柱を立てる
+            mapData[y][x] = WALL; 
             int dx[] = { 1, -1, 0, 0 }, dy[] = { 0, 0, 1, -1 };
             int dir = rand() % 4;
-            mapData[y + dy[dir]][x + dx[dir]] = WALL; // 倒す
+            mapData[y + dy[dir]][x + dx[dir]] = WALL; 
         }
     }
 }
@@ -64,14 +64,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0) {
         ClearDrawScreen();
 
-        // --- 探索処理（1フレームに1ステップ進む） ---
+        
         if (!openList.empty() && !goalReached) {
             Node cur = openList.top(); openList.pop();
 
             if (cur.pos == goal) {
                 goalReached = true;
                 Pos r = goal;
-                while (!(r == start)) { // 最短経路を赤く塗る
+                while (!(r == start)) { 
                     if (!(r == goal)) mapData[r.y][r.x] = ROUTE;
                     r = parentMap[r];
                 }
@@ -105,7 +105,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
             }
         }
         ScreenFlip();
-        Sleep(30); // 探索の様子が見えるように少し待つ
+        Sleep(30); 
     }
     DxLib_End();
     return 0;
